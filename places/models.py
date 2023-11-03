@@ -11,3 +11,12 @@ class Place(models.Model):
     def __str__(self):
         return self.title
 
+
+class PlaceImage(models.Model):
+    place = models.ForeignKey('Place', null=True, on_delete=models.SET_NULL, related_name='images')
+    number = models.PositiveIntegerField(verbose_name='Порядковый номер изображения')
+    title = models.CharField(max_length=200, verbose_name='Название изображения')
+    image = models.ImageField(upload_to='images/', verbose_name='Изображение')
+
+    def __str__(self):
+        return self.title
