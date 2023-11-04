@@ -1,38 +1,32 @@
-from django.http import HttpResponse
-from django.template import loader
 from django.shortcuts import render
+from places.models import Place, PlaceImage
 
 
 def show_start_page(request):
-    data = {
-        "geojson": {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [37.62, 55.793676]
-                    },
-                    "properties": {
-                        "title": "Легенды Москвы",
-                        "placeId": "moscow_legends",
-                        "detailsUrl": "./static/json/moscow_legends.json"
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [37.64, 55.753676]
-                    },
-                    "properties": {
-                        "title": "Крыши24.рф",
-                        "placeId": "roofs24",
-                        "detailsUrl": "./static/json/roofs24.json"
-                    }
-                }
-            ]
+    places = Place.objects.all()
+    geojson_feature = []
+
+    for place in places:
+
+        feature = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [place.lon, place.lat]
+            },
+            "properties": {
+                "title": place.title,
+                "placeId": place.pk,
+                "detailsUrl": "./static/json/moscow_legends.json"
+            }
         }
+        geojson_feature.append(feature)
+    geojson = {
+        "type": "FeatureCollection",
+        "features": geojson_feature
+    }
+
+    data = {
+        "geojson": geojson
     }
     return render(request, 'index.html', context=data)
