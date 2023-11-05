@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', show_start_page),
     path('places/', include('places.urls', namespace='places')),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 
