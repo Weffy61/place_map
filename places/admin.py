@@ -2,12 +2,15 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from .models import Place, PlaceImage
+from adminsortable2.admin import SortableAdminMixin, SortableStackedInline
 
 
-class PlaceImageInline(admin.TabularInline):
+class PlaceImageInline(SortableStackedInline):
     model = PlaceImage
     readonly_fields = ['get_preview']
-    fields = ['image', 'get_preview', 'number']
+    fields = ['image', 'get_preview']
+    ordering = ['number']
+    extra = 0
 
     def get_preview(self, obj):
         width = obj.image.width
@@ -27,15 +30,14 @@ class PlaceImageInline(admin.TabularInline):
 
 
 @admin.register(Place)
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ['pk', 'title']
     inlines = [PlaceImageInline]
 
 
 @admin.register(PlaceImage)
 class PlaceImageAdmin(admin.ModelAdmin):
-    list_display = ['number', 'title']
+    list_display = ['number']
     raw_id_fields = ['place']
-
 
 
