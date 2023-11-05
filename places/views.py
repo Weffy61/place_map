@@ -7,7 +7,7 @@ def place_detail(request, place_id):
     place = get_object_or_404(Place,
                               pk=place_id)
     place_images = PlaceImage.objects.filter(place=place)
-    images_path = [str(place_image.image.url) for place_image in place_images]
+    images_path = [place_image.image.url for place_image in place_images]
 
     data = {'title': place.title,
             'imgs': images_path,

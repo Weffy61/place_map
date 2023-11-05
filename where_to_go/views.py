@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from places.models import Place, PlaceImage
+from places.models import Place
+from django.urls import reverse
 
 
 def show_start_page(request):
@@ -17,7 +18,7 @@ def show_start_page(request):
             "properties": {
                 "title": place.title,
                 "placeId": place.pk,
-                "detailsUrl": "./static/json/moscow_legends.json"
+                "detailsUrl": reverse('places:place_detail', args=[place.pk])
             }
         }
         geojson_feature.append(feature)
