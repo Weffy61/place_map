@@ -24,7 +24,7 @@ class PlaceImage(models.Model):
     image = models.ImageField(upload_to='images/', verbose_name='Изображение')
 
     def __str__(self):
-        return f'{self.number}. {self.place.title}'
+        return f'{self.number}'
 
     class Meta:
         verbose_name = 'Изображение'
