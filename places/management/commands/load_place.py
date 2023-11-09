@@ -1,12 +1,10 @@
 import os
 import time
-
 from places.models import Place, PlaceImage
 from django.core.management import BaseCommand
 import requests
 from django.utils.safestring import mark_safe
-from django.core.files import File
-from django.core.files.temp import NamedTemporaryFile
+from django.core.files.base import ContentFile
 
 
 def parse_place(link):
@@ -33,20 +31,16 @@ def create_place(title, description_short, description_long, lat, lng, images):
                                                  lat=lat,
                                                  lon=lng)
     for count, image_link in enumerate(images):
-        with NamedTemporaryFile(delete=True) as img_tmp:
-            try:
-                response = requests.get(image_link)
-                response.raise_for_status()
-                image = response.content
-                place_image = PlaceImage.objects.create(place=place, number=count + 1)
-                img_tmp.write(image)
-                place_image.image.save(os.path.basename(image_link), File(img_tmp))
-                place_image.save()
-            except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema,
-                    requests.exceptions.ConnectionError) as ex:
-                print(f'Изображение {os.path.basename(image_link)} недоступно, так как {ex}')
-                time.sleep(5)
-                continue
+        try:
+            response = requests.get(image_link)
+            response.raise_for_status()
+            place_image = PlaceImage.objects.create(place=place, number=count + 1)
+            place_image.image.save(os.path.basename(image_link), ContentFile(response.content), save=True)
+        except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema,
+                requests.exceptions.ConnectionError) as ex:
+            print(f'Изображение {os.path.basename(image_link)} недоступно, так как {ex}')
+            time.sleep(5)
+            continue
     print(f'Локация "{place.title}" успешно добавлена')
 
 
