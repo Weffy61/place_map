@@ -11,6 +11,7 @@ git clone https://github.com/Weffy61/place_map.git
 ```
 
 ## Установка зависимостей
+
 Переход в директорию с исполняемым файлом и установка
 
 ```commandline
@@ -18,6 +19,9 @@ cd place_map
 ```
 
 Установка
+
+Python 3.10 должен быть уже установлен. Далее используйте pip(or pip3, если имеется конфликт с Python2) 
+для установки зависомостей:
 
 ```commandline
 pip install -r requirements.txt
