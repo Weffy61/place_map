@@ -19,7 +19,7 @@ class Place(models.Model):
 
 
 class PlaceImage(models.Model):
-    place = models.ForeignKey('Place', null=True,
+    place = models.ForeignKey('Place',
                               on_delete=models.SET_NULL,
                               related_name='images',
                               verbose_name='Место')
