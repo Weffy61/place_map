@@ -32,8 +32,8 @@ pip install -r requirements.txt
 Создайте в корне папки `place_map` файл `.env`. Откройте его для редактирования любым текстовым редактором и запишите 
 туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
 Доступны следующие переменные:
-- SECRET_KEY - секретный ключ проекта. Например: `erofheronoirenfoernfx49389f43xf3984xf9384`.
-- DEBUG - дебаг-режим. Поставьте True, чтобы увидеть отладочную информацию в случае ошибки.
+- SECRET_KEY - секретный ключ проекта. [Что такое SECRET KEY](https://docs.djangoproject.com/en/4.2/ref/settings/#std-setting-SECRET_KEY). 
+- DEBUG - дебаг-режим. Поставьте True, чтобы увидеть отладочную информацию в случае ошибки. [Подробнее про DEBUG](https://docs.djangoproject.com/en/4.2/ref/settings/#debug)
 - STATIC_URL - по умолчанию это `/static/`. [Что такое STATIC_URL](https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-STATIC_URL).
 - MEDIA_URL - по умолчанию это `/media/`. [Что такое MEDIA_URL](https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-MEDIA_URL).
 - ALLOWED_HOSTS - см. [документацию Django](https://docs.djangoproject.com/en/3.1/ref/settings/#allowed-hosts).
