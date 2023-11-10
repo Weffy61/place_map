@@ -13,14 +13,7 @@ class PlaceImageInline(SortableStackedInline):
     extra = 0
 
     def get_preview(self, image):
-        style = "max-height: 200px;"
-
-        return format_html("<b>{}</b>",
-                           mark_safe('<img src="{url}" style="{style}" />'.format(
-                                   url=image.image.url, style=style
-                                   )
-                               )
-                           )
+        return format_html('<img src="{}"style="max-height: 200px;" />', image.image.url)
 
 
 @admin.register(Place)
