@@ -39,10 +39,13 @@ def parse_place(link):
 
 def create_place(place_details):
     place, created = Place.objects.get_or_create(title=place_details.title,
-                                                 short_description=place_details.short_description,
-                                                 long_description=mark_safe(place_details.long_description),
-                                                 lat=place_details.lat,
-                                                 lon=place_details.lng)
+                                                 defaults=
+                                                 {'short_description': place_details.short_description,
+                                                  'long_description': mark_safe(place_details.long_description),
+                                                  'lat': place_details.lat,
+                                                  'lon': place_details.lng
+                                                  })
+
     for count, image_link in enumerate(place_details.images):
         try:
             response = requests.get(image_link)
