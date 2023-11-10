@@ -13,17 +13,11 @@ class PlaceImageInline(SortableStackedInline):
     extra = 0
 
     def get_preview(self, image):
-        width = image.image.width
-        height = image.image.height
-        max_height = 200
-
-        resize_width = (width / height) * max_height
+        style = "max-height: 200px;"
 
         return format_html("<b>{}</b>",
-                           mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
-                                   url=image.image.url,
-                                   width=int(resize_width),
-                                   height=max_height,
+                           mark_safe('<img src="{url}" style="{style}" />'.format(
+                                   url=image.image.url, style=style
                                    )
                                )
                            )
