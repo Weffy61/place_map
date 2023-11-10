@@ -1,4 +1,4 @@
-from collections import namedtuple
+from typing import NamedTuple
 import os
 import time
 
@@ -14,7 +14,16 @@ def parse_place(link):
         response = requests.get(link)
         response.raise_for_status()
         place = response.json()
-        Details = namedtuple('Details', 'title short_description long_description lat lng images')
+
+        Details = NamedTuple('Details', [
+            ('title', str),
+            ('short_description', str),
+            ('long_description', str),
+            ('lat', float),
+            ('lng', float),
+            ('images', list)
+        ])
+
         place_details = Details(place['title'],
                                 place['description_short'],
                                 place['description_long'],
