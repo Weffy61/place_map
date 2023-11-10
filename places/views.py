@@ -35,10 +35,10 @@ def show_place_details(request, place_id):
     place = get_object_or_404(Place,
                               pk=place_id)
     place_images = place.images.all()
-    images_path = [place_image.image.url for place_image in place_images]
+    image_paths = [place_image.image.url for place_image in place_images]
 
     place_details = {'title': place.title,
-                     'imgs': images_path,
+                     'imgs': image_paths,
                      'description_short': place.short_description,
                      'description_long': place.long_description,
                      'coordinates': {
