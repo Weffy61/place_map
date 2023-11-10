@@ -1,10 +1,12 @@
+from collections import namedtuple
 import os
 import time
+
 from places.models import Place, PlaceImage
 from django.core.management import BaseCommand
-import requests
 from django.utils.safestring import mark_safe
 from django.core.files.base import ContentFile
+import requests
 
 
 def parse_place(link):
@@ -12,25 +14,27 @@ def parse_place(link):
         response = requests.get(link)
         response.raise_for_status()
         place = response.json()
-        title = place['title']
-        short_description = place['description_short']
-        long_description = place['description_long']
-        lat = place['coordinates']['lat']
-        lng = place['coordinates']['lng']
-        images = place['imgs']
-        return title, short_description, long_description, lat, lng, images
+        Details = namedtuple('Details', 'title short_description long_description lat lng images')
+        place_details = Details(place['title'],
+                                place['description_short'],
+                                place['description_long'],
+                                place['coordinates']['lat'],
+                                place['coordinates']['lng'],
+                                place['imgs']
+                                )
+        return place_details
     except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema,
             requests.exceptions.ConnectionError, KeyError) as ex:
         print(f'Не удалось спарсить локацию, так как {ex}')
 
 
-def create_place(title, short_description, long_description, lat, lng, images):
-    place, created = Place.objects.get_or_create(title=title,
-                                                 short_description=short_description,
-                                                 long_description=mark_safe(long_description),
-                                                 lat=lat,
-                                                 lon=lng)
-    for count, image_link in enumerate(images):
+def create_place(place_details):
+    place, created = Place.objects.get_or_create(title=place_details.title,
+                                                 short_description=place_details.short_description,
+                                                 long_description=mark_safe(place_details.long_description),
+                                                 lat=place_details.lat,
+                                                 lon=place_details.lng)
+    for count, image_link in enumerate(place_details.images):
         try:
             response = requests.get(image_link)
             response.raise_for_status()
@@ -45,8 +49,8 @@ def create_place(title, short_description, long_description, lat, lng, images):
 
 
 def main(json_url):
-    title, short_description, long_description, lat, lng, images = parse_place(json_url)
-    create_place(title, short_description, long_description, lat, lng, images)
+    place_details = parse_place(json_url)
+    create_place(place_details)
 
 
 class Command(BaseCommand):
