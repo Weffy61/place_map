@@ -45,8 +45,7 @@ def create_place(title, short_description, long_description, lat, lng, images):
 
 
 def main(json_url):
-    link = json_url
-    title, short_description, long_description, lat, lng, images = parse_place(link)
+    title, short_description, long_description, lat, lng, images = parse_place(json_url)
     create_place(title, short_description, long_description, lat, lng, images)
 
 
