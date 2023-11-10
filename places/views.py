@@ -34,7 +34,7 @@ def show_start_page(request):
 def show_place_details(request, place_id):
     place = get_object_or_404(Place,
                               pk=place_id)
-    place_images = PlaceImage.objects.filter(place=place)
+    place_images = place.images.all()
     images_path = [place_image.image.url for place_image in place_images]
 
     place_details = {'title': place.title,
