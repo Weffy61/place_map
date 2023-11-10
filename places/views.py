@@ -32,7 +32,7 @@ def show_start_page(request):
 
 
 def show_place_details(request, place_id):
-    place = get_object_or_404(Place,
+    place = get_object_or_404(Place.objects.prefetch_related('images'),
                               pk=place_id)
     place_images = place.images.all()
     image_paths = [place_image.image.url for place_image in place_images]
