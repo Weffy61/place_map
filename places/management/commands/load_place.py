@@ -13,21 +13,21 @@ def parse_place(link):
         response.raise_for_status()
         place = response.json()
         title = place['title']
-        description_short = place['description_short']
-        description_long = place['description_long']
+        short_description = place['description_short']
+        long_description = place['description_long']
         lat = place['coordinates']['lat']
         lng = place['coordinates']['lng']
         images = place['imgs']
-        return title, description_short, description_long, lat, lng, images
+        return title, short_description, long_description, lat, lng, images
     except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema,
             requests.exceptions.ConnectionError, KeyError) as ex:
         print(f'Не удалось спарсить локацию, так как {ex}')
 
 
-def create_place(title, description_short, description_long, lat, lng, images):
+def create_place(title, short_description, long_description, lat, lng, images):
     place, created = Place.objects.get_or_create(title=title,
-                                                 description_short=description_short,
-                                                 description_long=mark_safe(description_long),
+                                                 short_description=short_description,
+                                                 long_description=mark_safe(long_description),
                                                  lat=lat,
                                                  lon=lng)
     for count, image_link in enumerate(images):
@@ -46,8 +46,8 @@ def create_place(title, description_short, description_long, lat, lng, images):
 
 def main(json_url):
     link = json_url
-    title, description_short, description_long, lat, lng, images = parse_place(link)
-    create_place(title, description_short, description_long, lat, lng, images)
+    title, short_description, long_description, lat, lng, images = parse_place(link)
+    create_place(title, short_description, long_description, lat, lng, images)
 
 
 class Command(BaseCommand):

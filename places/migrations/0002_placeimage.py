@@ -39,7 +39,6 @@ class Migration(migrations.Migration):
                 (
                     "place",
                     models.ForeignKey(
-                        null=True,
                         on_delete=django.db.models.deletion.SET_NULL,
                         related_name="images",
                         to="places.place",

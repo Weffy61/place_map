@@ -30,5 +30,6 @@ class PlaceImage(models.Model):
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
 
-    def __str__(self):
+    def __int__(self):
         return self.number
+
