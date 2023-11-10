@@ -7,10 +7,7 @@ from django.urls import reverse
 
 def show_start_page(request):
     places = Place.objects.all()
-    geojson_feature = []
-    for place in places:
-
-        feature = {
+    geojson_feature = [{
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -21,8 +18,8 @@ def show_start_page(request):
                 "placeId": place.pk,
                 "detailsUrl": reverse('places:place_detail', args=[place.pk])
             }
-        }
-        geojson_feature.append(feature)
+        } for place in places]
+
     geojson = {
         "type": "FeatureCollection",
         "features": geojson_feature
