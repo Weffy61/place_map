@@ -40,16 +40,16 @@ def place_detail(request, place_id):
     place_images = PlaceImage.objects.filter(place=place)
     images_path = [place_image.image.url for place_image in place_images]
 
-    data = {'title': place.title,
-            'imgs': images_path,
-            'description_short': place.short_description,
-            'description_long': place.long_description,
-            'coordinates': {
-                'lng': place.lon,
-                'lat': place.lat
-            }
-            }
-    return JsonResponse(data,
+    place_details = {'title': place.title,
+                     'imgs': images_path,
+                     'description_short': place.short_description,
+                     'description_long': place.long_description,
+                     'coordinates': {
+                         'lng': place.lon,
+                         'lat': place.lat
+                     }
+                     }
+    return JsonResponse(place_details,
                         json_dumps_params={"ensure_ascii": False, 'indent': 2},
                         safe=False,
                         content_type="application/json; charset=utf-8")
