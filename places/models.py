@@ -23,7 +23,7 @@ class PlaceImage(models.Model):
                               on_delete=models.SET_NULL,
                               related_name='images',
                               verbose_name='Место')
-    number = models.PositiveIntegerField(verbose_name='Порядковый номер изображения', default=0)
+    number = models.PositiveIntegerField(verbose_name='Порядковый номер изображения', default=0, db_index=True)
     image = models.ImageField(upload_to='images/', verbose_name='Изображение')
 
     class Meta:
