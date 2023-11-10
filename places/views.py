@@ -31,7 +31,7 @@ def show_start_page(request):
     return render(request, 'index.html', context=data)
 
 
-def place_detail(request, place_id):
+def show_place_details(request, place_id):
     place = get_object_or_404(Place,
                               pk=place_id)
     place_images = PlaceImage.objects.filter(place=place)

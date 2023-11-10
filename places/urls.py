@@ -5,6 +5,6 @@ app_name = 'places'
 
 urlpatterns = [
     path('<int:place_id>/',
-         views.place_detail,
+         views.show_place_details,
          name='place_detail')
 ]
