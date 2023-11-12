@@ -10,28 +10,28 @@ import requests
 from places.models import Place, PlaceImage
 
 
+class Details(NamedTuple):
+    title: str
+    short_description: str
+    long_description: str
+    lat: float
+    lng: float
+    images: list
+
+
 def parse_place(link):
     try:
         response = requests.get(link)
         response.raise_for_status()
         place = response.json()
-
-        Details = NamedTuple('Details', [
-            ('title', str),
-            ('short_description', str),
-            ('long_description', str),
-            ('lat', float),
-            ('lng', float),
-            ('images', list)
-        ])
-
-        place_details = Details(place['title'],
-                                place['description_short'],
-                                place['description_long'],
-                                place['coordinates']['lat'],
-                                place['coordinates']['lng'],
-                                place['imgs']
+        place_details = Details(title=place['title'],
+                                short_description=place['description_short'],
+                                long_description=place['description_long'],
+                                lat=place['coordinates']['lat'],
+                                lng=place['coordinates']['lng'],
+                                images=place['imgs']
                                 )
+
         return place_details
     except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema,
             requests.exceptions.ConnectionError, KeyError) as ex:
