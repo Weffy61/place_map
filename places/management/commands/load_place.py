@@ -1,12 +1,13 @@
-from typing import NamedTuple
 import os
 import time
+from typing import NamedTuple
 
-from places.models import Place, PlaceImage
 from django.core.management import BaseCommand
 from django.utils.safestring import mark_safe
 from django.core.files.base import ContentFile
 import requests
+
+from places.models import Place, PlaceImage
 
 
 def parse_place(link):
