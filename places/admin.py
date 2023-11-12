@@ -6,6 +6,10 @@ from adminsortable2.admin import SortableAdminMixin, SortableStackedInline
 from .models import Place, PlaceImage
 
 
+image_max_height = 200
+image_max_width = 200
+
+
 class PlaceImageInline(SortableStackedInline):
     model = PlaceImage
     readonly_fields = ['get_preview']
@@ -14,10 +18,10 @@ class PlaceImageInline(SortableStackedInline):
     extra = 0
 
     def get_preview(self, image):
-        max_height = 200
-        max_width = 200
+        global image_max_height
+        global image_max_width
         return format_html('<img src="{}" style="max-height: {}px; max-width: {}px;" />',
-                           image.image.url, max_height, max_width)
+                           image.image.url, image_max_height, image_max_width)
 
 
 @admin.register(Place)
