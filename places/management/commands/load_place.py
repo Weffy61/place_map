@@ -47,11 +47,11 @@ def create_place(place_details):
                                                   'lon': place_details.lng
                                                   })
 
-    for count, image_link in enumerate(place_details.images):
+    for count, image_link in enumerate(place_details.images, start=1):
         try:
             response = requests.get(image_link)
             response.raise_for_status()
-            place_image = PlaceImage.objects.create(place=place, number=count + 1)
+            place_image = PlaceImage.objects.create(place=place, number=count)
             place_image.image.save(os.path.basename(image_link), ContentFile(response.content), save=True)
         except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema,
                 requests.exceptions.ConnectionError) as ex:
