@@ -51,8 +51,11 @@ def create_place(place_details):
         try:
             response = requests.get(image_link)
             response.raise_for_status()
-            place_image = PlaceImage.objects.create(place=place, number=count)
-            place_image.image.save(os.path.basename(image_link), ContentFile(response.content), save=True)
+            place_image = PlaceImage.objects.create(place=place,
+                                                    number=count,
+                                                    image=ContentFile(
+                                                        response.content,
+                                                        name=os.path.basename(image_link)))
         except (requests.exceptions.HTTPError, requests.exceptions.MissingSchema,
                 requests.exceptions.ConnectionError) as ex:
             print(f'Изображение {os.path.basename(image_link)} недоступно, так как {ex}')
